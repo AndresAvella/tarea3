@@ -7,7 +7,13 @@ from scipy import ndimage
 
 
 #cargpo la imagen con el ruido y utilizo una variable para guardar la transformada de fourier , grafico la transformada y muestro la grafica
+
+
 im = plt.imread('Arboles.png').astype(float) 
 im_fft = fftpack.fft2(im)
 plt.plot(im_fft)
+plt.title("transformada de fourier de la imagen")
+plt.xlabel(r"$x $")
+plt.ylabel(r"$frecuencia $")
+plt.savefig('AvellaAndres_FT2D.pdf')
 plt.show()
