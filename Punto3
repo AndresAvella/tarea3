@@ -1,0 +1,13 @@
+from skimage import io
+import matplotlib.pyplot as plt
+from skimage.color import rgb2gray
+from scipy import fftpack
+import numpy as np
+from scipy import ndimage
+
+
+#cargpo la imagen con el ruido y utilizo una variable para guardar la transformada de fourier , grafico la transformada y muestro la grafica
+im = plt.imread('Arboles.png').astype(float) 
+im_fft = fftpack.fft2(im)
+plt.plot(im_fft)
+plt.show()
