@@ -33,3 +33,37 @@ plt.savefig('AvellaAndres_FT2D-recortada.pdf')
 plt.show()
 # guardo los valores de la transformada filtrada
 
+def pe(im_fft):
+    
+    
+    #creo la grafica que me piden lognormal
+    plt.imshow(np.abs(im_fft), norm=LogNorm(vmin=5))
+    plt.colorbar()
+
+plt.figure()
+pe(im_fft)
+plt.title('Transformada de Fourier')
+plt.savefig('AvellaAndres_FourierLognormal.pdf')
+
+
+#procion que se quiere tener del espectro 
+recorte = 0.35
+
+#creo una copia de la imagen con el fin de modificarla y filtrarla
+im_fft2 = im_fft.copy()
+r, c = im_fft2.shape
+
+# borro los espectro que no quiero y los hago cero como se ve en la sigueinte grafica para filas y columnas
+im_fft2[int(r*recorte):int(r*(1-recorte))] = 0
+im_fft2[:, int(c*recorte):int(c*(1-recorte))] = 0
+#muestro el resultado del filtro
+plt.figure()
+pe(im_fft2)
+plt.title('Espectro Filtrado')
+plt.savefig('AvellaAndres_Fourier-filtrado-Lognormal.pdf')
+#realizo la transformada inversa luego de filtrar y muestro la imagen sin ruido
+im_new = fftpack.ifft2(im_fft2).real
+plt.figure()
+plt.imshow(im_new, plt.cm.gray)
+plt.title('Imagen Reconstruida')
+plt.savefig('AvellaAndres_imagenreconstruida.pdf')
