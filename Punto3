@@ -6,9 +6,7 @@ import numpy as np
 from scipy import ndimage
 
 
-#cargpo la imagen con el ruido y utilizo una variable para guardar la transformada de fourier , grafico la transformada y muestro la grafica
-
-
+#cargo la imagen con el ruido , defino la transformada de fourier y la aplico a la imagen, creo la grafica de la trasnformada de fourier 
 im = plt.imread('Arboles.png').astype(float) 
 im_fft = fftpack.fft2(im)
 plt.plot(im_fft)
@@ -18,8 +16,7 @@ plt.ylabel(r"$frecuencia $")
 plt.savefig('AvellaAndres_FT2D.pdf')
 plt.show()
 #imprimo los valores de la transforamda de fourier y sus dimenciones
-print(im_fft)
-print(im_fft.shape)
+
 #una vez vistas las dimenciones aplico un rango con el fin de quitar las frecuencias altas
 for i in range(256):
     for j in range(256):
@@ -31,7 +28,8 @@ plt.plot(im_fft)
 plt.title("transformada de fourier de la imagen recortada")
 plt.savefig('AvellaAndres_FT2D-recortada.pdf')
 plt.show()
-# guardo los valores de la transformada filtrada
+
+
 
 def pe(im_fft):
     
@@ -49,21 +47,21 @@ plt.savefig('AvellaAndres_FourierLognormal.pdf')
 #procion que se quiere tener del espectro 
 recorte = 0.35
 
-#creo una copia de la imagen con el fin de modificarla y filtrarla
+#creo una copua de la imagen con el fin de modificarla y filtrarla
 im_fft2 = im_fft.copy()
-r, c = im_fft2.shape
+a, b = im_fft2.shape
 
 # borro los espectro que no quiero y los hago cero como se ve en la sigueinte grafica para filas y columnas
-im_fft2[int(r*recorte):int(r*(1-recorte))] = 0
-im_fft2[:, int(c*recorte):int(c*(1-recorte))] = 0
+im_fft2[int(a*recorte):int(a*(1-recorte))] = 0
+im_fft2[:, int(b*recorte):int(b*(1-recorte))] = 0
 #muestro el resultado del filtro
 plt.figure()
 pe(im_fft2)
 plt.title('Espectro Filtrado')
 plt.savefig('AvellaAndres_Fourier-filtrado-Lognormal.pdf')
-#realizo la transformada inversa luego de filtrar y muestro la imagen sin ruido
-im_new = fftpack.ifft2(im_fft2).real
+#realizo la transformada inversa luego de filtrar y muestro la imagen sin 
+imn = fftpack.ifft2(im_fft2).real
 plt.figure()
-plt.imshow(im_new, plt.cm.gray)
+plt.imshow(imn, plt.cm.gray)
 plt.title('Imagen Reconstruida')
 plt.savefig('AvellaAndres_imagenreconstruida.pdf')
