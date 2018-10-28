@@ -1,1 +1,19 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy import fftpack
+from scipy.interpolate import interp1d
+#cargo los datos de la señal y los incompletos
+archivo = np.loadtxt('signal.dat', delimiter = ',')
+archivo1 = np.loadtxt('incompletos.dat', delimiter = ',')
+
+
+plt.plot(archivo)
+plt.savefig('AvellaAndres_signal.pdf')
+plt.title("señal")
+plt.show()
+plt.savefig('AvellaAndres_incompleto.pdf')
+plt.title("incompleto")
+plt.plot(archivo1)
+plt.show()
+
 
