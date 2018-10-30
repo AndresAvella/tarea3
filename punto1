@@ -1,1 +1,90 @@
+import numpy as np
+import matplotlib.pyplot as plt
+#cargo los datos
+archivo = np.loadtxt('WDBC.dat', dtype = str, delimiter = ',')
+#convierto la columna de maligno y beningno 
+for i in range(569):
+    if(archivo[i,1]=='M'):
+        archivoaux.append(1)
+    elif(archivo[i,1]=='B'):
+        archivoaux.append(0)
+#pego los datos a una nueva matriz      
+matriz= np.zeros((569,32))
+i=2
+while i <32:
+    matriz[:,i]=np.array(archivo[:,i])
+    i=i+1    
+mr= np.zeros((569,30))
+mr[:,0]=matriz[:,2]
+mr[:,1]=matriz[:,3]
+mr[:,2]=matriz[:,4]
+mr[:,3]=matriz[:,5]
+mr[:,4]=matriz[:,6]
+mr[:,5]=matriz[:,7]
+mr[:,6]=matriz[:,8]
+mr[:,7]=matriz[:,9]
+mr[:,8]=matriz[:,10]
+mr[:,9]=matriz[:,11]
+mr[:,10]=matriz[:,12]
+mr[:,11]=matriz[:,13]
+mr[:,12]=matriz[:,14]
+mr[:,13]=matriz[:,15]
+mr[:,14]=matriz[:,16]
+mr[:,15]=matriz[:,17]
+mr[:,16]=matriz[:,18]
+mr[:,17]=matriz[:,19]
+mr[:,18]=matriz[:,20]
+mr[:,19]=matriz[:,21]
+mr[:,20]=matriz[:,22]
+mr[:,21]=matriz[:,23]
+mr[:,22]=matriz[:,24]
+mr[:,23]=matriz[:,25]
+mr[:,24]=matriz[:,26]
+mr[:,25]=matriz[:,27]
+mr[:,26]=matriz[:,28]
+mr[:,27]=matriz[:,29]
+mr[:,28]=matriz[:,30]
+mr[:,29]=matriz[:,31]
+
+media=[]
+desv=[]
+for i in range (30):
+    media.append(np.mean(mr[:,i]))
+    desv.append(np.std(mr[:,i]))
+    mr[:,i]=(mr[:,i]-media[i])/desv[i]
+
+
+co=np.cov(mr.T)
+
+x, v = np.linalg.eig(co)
+for i in range(30):
+    print("los valores propios son ","",i,"",x[i])
+    print("")
+    print("los vectores propios son", v[i])
+    print("")
+    
+print( " los valores mas representativos asociados a los valores porpios son" , x[0], "y",x[1])
+PCA1=[]
+PCA2=[]
+
+plt.scatter(mr[:,0],mr[:,1])
+plt.show()
+for i in range(569):
+    if(archivo[i,1]=="M"):
+        PCA1.append(archivo[i,2])
+    if(archivo[i,1]=="B"):
+        PCA2.append(archivo[i,2])
+        
+x=[]
+y=[]
+y1=[]
+x=np.array(PCA1)
+y=np.array(PCA2)
+
+i=1
+while i < 213:
+    y1.append(y[i])
+    i=i+1
+
+
 
