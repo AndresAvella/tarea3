@@ -104,5 +104,24 @@ plt.plot(inversa2,inversa1)
 plt.savefig('AvellaAndres_filtrada.pdf')
 plt.close()
 
+RF111=[]
+RF222=[]
+RFaux1 = abs(fu(archivo1[:,0]))
+RFaux2= abs(fu(archivo1[:,1]))
+for i in range (116):
+    RF111.append(RFaux1)
+    RF222.append(RFaux2)
+t1=np.linspace(0,120,512)
+dt1=t1[1]-t[0]
+w1= fftfreq(116, dt1)
+plt.title("Transformada de fourier de los datos incompletos")
+plt.plot(w1, RF111)
+plt.plot(w1,RF222)
+plt.savefig('AvellaAndres_incompleto.pdf')
+plt.close()
+print("")
+print("al quitar datos de una funcion original la funcion deja de continuidad , de modo que a la hora de realizar la transformada de fourier se pierde informacion para pasar al espacion de frecuencias. Como s eve en la imagen de transformada de fourer de datos incompletos, no se genera una funcion continua sino un conjunto de lineas separadas. Ademas , es importante recordar que la falta de datos genera perdida de informacion, hasta el punto de evitar la lecutra en el espacio de frecunecias ")
+print("")
+
 
 
