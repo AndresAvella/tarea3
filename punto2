@@ -241,4 +241,29 @@ for i in range(512):
         ft33.append(RF5[i])
     if(RF6[i]<500):
         ft44.append(RF6[i])
+#grafica con los filtros
+fig, (ax1, ax2,ax3,ax4,ax5) = plt.subplots(nrows=5, ncols=1)
+plt.title("Transformada de fourier interpolacion cuadratica, cubica y datos originales")
+
+
+ax1.plot(w, ft1, marker='x',label="cuadratica-filtro 1000")
+ax1.plot(w ,ft2, marker='x', label="cuadratica-filtro 1000")
+ax1.legend(loc="upper left")
+ax2.plot(w ,ft3, marker='*',label="cubica- filtro 1000")
+ax2.plot(w,ft4, marker='*',label="cubica- filtro 1000")
+ax2.legend(loc="upper left")
+ax3.plot(w , RF1,label="original")
+ax3.plot(w , RF2,label="original")
+ax3.legend(loc="upper left")
+ax4.plot(w, ft11, marker='x',label="cuadratica-filtro 500")
+ax4.plot(w ,ft22, marker='x', label="cuadratica-filtro 500")
+ax4.legend(loc="upper left")
+ax5.plot(w ,ft33, marker='*',label="cubica- filtro 500")
+ax5.plot(w,ft44, marker='*',label="cubica- filtro 500")
+ax5.legend(loc="upper left")
+plt.savefig('AvellaAndres_2Filtro.pdf')
+plt.close()
+print("")
+print("note que las freuencias mas altas son del orden de los filtros por lo cual estas no van a cambiar considerablemente en comparacuon con la señal original, esto dado al orden de magnitud de los filtros y de las frecuencias, si se pone una frecuencia del orde de 200 HZ ,la señal puede variar considerablemente ya las frecuenicas principales de la señal original son mayores a las de ese valor")
+
 
