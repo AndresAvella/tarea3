@@ -2,18 +2,60 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy import fftpack
 from scipy.interpolate import interp1d
+from scipy.fftpack import fft, ifft,fftfreq
+
 #cargo los datos de la señal y los incompletos
 archivo = np.loadtxt('signal.dat', delimiter = ',')
 archivo1 = np.loadtxt('incompletos.dat', delimiter = ',')
 
-
+#cargo los archivos y ploteo cada uno de estos
 plt.plot(archivo)
+
+plt.title(" Datos señal")
 plt.savefig('AvellaAndres_signal.pdf')
-plt.title("señal")
-plt.show()
-plt.savefig('AvellaAndres_incompleto.pdf')
-plt.title("incompleto")
+plt.close()
+
 plt.plot(archivo1)
-plt.show()
+plt.title("Datos incompleto")
+plt.savefig('AvellaAndres_incompleto.pdf')
+plt.close()
+
+
+
+
+
+
+
+#genero un arrelgo para graficar y almaceno las columnas en variables
+
+x = np.linspace(0, 117, num=117, endpoint=True)
+y = archivo1[:,0]
+
+x1 = np.linspace(0, 117, num=117, endpoint=True)
+y1 = archivo1[:,1]
+
+
+#transformada de fourier
+def fu(arry):
+    
+    e = np.exp((-2*np.pi*1j)/len(arry))
+    es = np.asarray([np.power(e,k) for k in range(len(arry))])
+    f = np.zeros(len(arry), dtype = complex)
+    for j in range(len(arry)):
+        f[j] = np.dot(np.power(es,j),arry)
+    return f
+
+t=np.linspace(0,120,512)
+dt=t[1]-t[0]
+
+w = fftfreq(512, dt)
+#Magnitud de la transformada de fourier de los datos
+RF1=abs(fu(archivo[:,0]))
+RF2= abs(fu(archivo[:,1]))
+#grafica primera columna con FT
+plt.plot(w , RF1)
+plt.title("Transformada de fourier de la columna 1 de la señal")
+plt.savefig('AvellaAndres_TF_columna1.pdf')
+plt.close()
 
 
