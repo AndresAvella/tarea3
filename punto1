@@ -2,18 +2,20 @@ import numpy as np
 import matplotlib.pyplot as plt
 #cargo los datos
 archivo = np.loadtxt('WDBC.dat', dtype = str, delimiter = ',')
-#convierto la columna de maligno y beningno 
+archivoaux=[]
+#convierto la columna de maligno y beningno
 for i in range(569):
     if(archivo[i,1]=='M'):
         archivoaux.append(1)
     elif(archivo[i,1]=='B'):
         archivoaux.append(0)
-#pego los datos a una nueva matriz      
+#pego los datos a una nueva matriz
 matriz= np.zeros((569,32))
 i=2
 while i <32:
     matriz[:,i]=np.array(archivo[:,i])
-    i=i+1    
+    i=i+1
+#genero mi matriz para empezar a calcular la media y la deviacion estandar
 mr= np.zeros((569,30))
 mr[:,0]=matriz[:,2]
 mr[:,1]=matriz[:,3]
@@ -48,6 +50,7 @@ mr[:,29]=matriz[:,31]
 
 media=[]
 desv=[]
+#resto la media y divido la varianza para normalizar
 for i in range (30):
     media.append(np.mean(mr[:,i]))
     desv.append(np.std(mr[:,i]))
@@ -55,36 +58,74 @@ for i in range (30):
 
 
 co=np.cov(mr.T)
+print("")
+print("la matriz de covarianza es ",co)
+print("")
 
+#calculo los  valores propios y los vectores propios de mi matriz de covarianza
 x, v = np.linalg.eig(co)
 for i in range(30):
     print("los valores propios son ","",i,"",x[i])
     print("")
     print("los vectores propios son", v[i])
     print("")
-    
-print( " los valores mas representativos asociados a los valores porpios son" , x[0], "y",x[1])
+#identifico que valores propios son los mas representativos para reducir la dimencionalidad del problema
+print("")
+print( " los valores de la columna 3 y 4 de la hoja de datos son los  mas representativos. ya que estos tienen  asociados  los valores  propios  :" , x[0], "y",x[1],"los cuales son los mayores en la lista de los 30 valores propios ( no incluye cedula que es la columna 0 y el string de maligno y benigno )")
+print("")
 PCA1=[]
+PCA11=[]
 PCA2=[]
+PCA22=[]
 
-plt.scatter(mr[:,0],mr[:,1])
-plt.show()
+#filtro los datos de estas dos variables para la categoria de maligno  y benigno.
 for i in range(569):
     if(archivo[i,1]=="M"):
         PCA1.append(archivo[i,2])
     if(archivo[i,1]=="B"):
         PCA2.append(archivo[i,2])
-        
+    if(archivo[i,1]=="M"):
+        PCA11.append(archivo[i,3])
+    if(archivo[i,1]=="B"):
+        PCA22.append(archivo[i,3])
+#los guardo en arreglos para plotearlos
 x=[]
 y=[]
 y1=[]
+x1=[]
+yaux1=[]
+yaux2=[]
 x=np.array(PCA1)
+x=x.astype(np.float)
+
 y=np.array(PCA2)
+y=y.astype(np.float)
+
+x1=np.array(PCA11)
+x1=x1.astype(np.float)
+
+y1=np.array(PCA22)
+y1=y1.astype(np.float)
+
 
 i=1
 while i < 213:
-    y1.append(y[i])
+    yaux1.append(y[i])
+    yaux2.append(y1[i])
     i=i+1
+#plot de mis variables categoricas para la division de maligno y beningno
+plt.title(" PCA")
+plt.scatter(x,x1,label="Maligno")
+plt.scatter(yaux1,yaux2,label="Benigno")
+plt.legend()
+plt.savefig('AvellaAndres_PCA.pdf')
 
+plt.close()
+
+
+print("")
+print("conclusion")
+print("")
+print("Como puede verse luego de catalogar las dos variables con los valores propios mas grandes de la matriz de covarianza y plotealas en relacion a loa categoria maligno y beningno, se presenta cierta separacion o distincion entre las variables categoricas, sin embargo no es del todo claro, ademas de esta separacion esperaria ver una tendencia de los mismos datos, cosa que no ocurre , por lo cual no es confiable hacer un diagnostico para los pacientes. Aun asi, este metodo nos da una sospecha de posibles correlaciones entre variables , por lo cual se recomienda hacer una prueba estadistica mucho mas robusta como una Anova por bloques con el fin de ver la significancia de las variables en el modelo.")
 
 
