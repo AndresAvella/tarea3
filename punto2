@@ -123,5 +123,68 @@ print("")
 print("al quitar datos de una funcion original la funcion deja de continuidad , de modo que a la hora de realizar la transformada de fourier se pierde informacion para pasar al espacion de frecuencias. Como s eve en la imagen de transformada de fourer de datos incompletos, no se genera una funcion continua sino un conjunto de lineas separadas. Ademas , es importante recordar que la falta de datos genera perdida de informacion, hasta el punto de evitar la lecutra en el espacio de frecunecias ")
 print("")
 
+# interpolacion
+#realizo el proceso de interpolacion de la señal incompleta en primer orden , segundo y tercero
+
+f2 = interp1d(x, y, kind='cubic')
+f3= interp1d(x, y, kind='quadratic')
+#proceso de interpolacion para la segunda columna
+f22 = interp1d(x1, y1, kind='cubic')
+f33= interp1d(x1, y1, kind='quadratic')
+xnew = np.linspace(0, 117, num=512, endpoint=True)
+#grafia con la interpolacion cubica y los datos originales
+plt.title("Interpolacion cubica de los datos incompletos")
+plt.plot(xnew,f2(xnew))
+plt.plot(xnew,f22(xnew))
+plt.plot(xnew,archivo[:,0])
+plt.plot(xnew,archivo[:,1])
+plt.savefig('AvellaAndres_iter_cubica.pdf')
+plt.close()
+
+
+#grafica con la interpolacion cuadrada y los datos originales
+plt.title("Interpolacion cuadratica de los datos incompletos")
+plt.plot(xnew,f3(xnew))
+plt.plot(xnew,f33(xnew))
+plt.plot(xnew,archivo[:,0])
+plt.plot(xnew,archivo[:,1])
+plt.savefig('AvellaAndres_inter_cuadratica.pdf')
+plt.close()
+#
+RF3 = abs(fu(f3(xnew)))
+RF4 = abs(fu(f33(xnew)))
+RF5 = abs(fu(f2(xnew)))
+RF6 = abs(fu(f22(xnew)))
+#grafica de transformada de fourier
+plt.title("Transformada de fourier de interpolacion cuadratica de los datos incompletos")
+plt.plot(w,RF3)
+plt.plot(w,RF4)
+plt.savefig('AvellaAndres_TF_inter_cuadratica.pdf')
+plt.close()
+
+
+plt.title("Transformada de fourier de interpolacion cuadratica de los datos incompletos")
+plt.plot(w,RF3)
+plt.plot(w,RF4)
+plt.xlim(-0.5,0.5)
+plt.savefig('AvellaAndres_TF_inter_cuadratica-frecu-importantes.pdf')
+plt.close()
+
+#grafica de transformada de fourier
+plt.title("transformada de fourier de interpolacion cubica de los datos incompletos")
+plt.plot(w,RF5)
+plt.plot(w,RF6)
+plt.savefig('AvellaAndres_TF_inter_cubica.pdf')
+plt.close()
+
+
+
+plt.title("transformada de fourier de interpolacion cubica de los datos incompletos")
+plt.plot(w,RF5)
+plt.plot(w,RF6)
+plt.xlim(-0.5,0.5)
+plt.savefig('AvellaAndres_TF_inter_cubica_frecu_importantes.pdf')
+plt.close()
+
 
 
