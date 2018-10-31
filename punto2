@@ -58,4 +58,51 @@ plt.title("Transformada de fourier de la columna 1 de la señal")
 plt.savefig('AvellaAndres_TF_columna1.pdf')
 plt.close()
 
+plt.plot(w , RF2)
+plt.title("Transformada de fourier de la columna 2 de la señal")
+plt.savefig('AvellaAndres_TF_columna2.pdf')
+plt.close()
+
+#grafica de señal con FT
+plt.title("Transformada de fourier de la señal")
+plt.plot(w , RF1)
+plt.plot(w, RF2)
+plt.savefig('AvellaAndres_TF.pdf')
+plt.close()
+
+#filtrado de frecuencias
+plt.title("Transformada de fourier para frecuencias mas importantes de la señal")
+plt.plot(w , RF1)
+plt.plot(w , RF2)
+plt.xlim(-0.5,0.5)
+plt.savefig('AvellaAndres_TF_frecuencias_importantes.pdf')
+plt.close()
+
+#se requiere tener la frecuencia  mas importante
+
+fre=[]
+
+for i in range (512):
+    if(RF2[i]>199):
+        fre.append(RF2[i])
+print("")
+print("Las frecuencias dominantes son ",fre)
+print("")
+#filtro la señal y hago la inversa
+frecorte2=[]
+frecorte1=[]
+for i in range (512):
+    if(RF2[i]<1000):
+        frecorte2.append(RF2[i])
+    if(RF1[i]<1000):
+        frecorte1.append(RF1[i])
+
+inversa1=np.real(ifft(frecorte2))
+inversa2=np.real(ifft(frecorte1))
+plt.title("Transformada inversa de fourier luego del filtro")
+plt.plot(inversa2,inversa1)
+plt.savefig('AvellaAndres_filtrada.pdf')
+plt.close()
+
+
 
