@@ -187,4 +187,58 @@ plt.savefig('AvellaAndres_TF_inter_cubica_frecu_importantes.pdf')
 plt.close()
 
 
+#plot triple de las transformadas de fourier
+fig, (ax1, ax2,ax3) = plt.subplots(nrows=1, ncols=3)
+plt.title("Transformada de fourier interpolacion cuadratica, cubica y datos originales")
+ax1.plot(w, RF3, marker='x',label="cuadratica")
+ax1.plot(w ,RF4, marker='x', label="cuadratica")
+ax1.legend(loc="upper left")
+ax2.plot(w,RF5, marker='*',label="cubica")
+ax2.plot(w,RF6, marker='*',label="cubica")
+ax2.legend(loc="upper left")
+ax3.plot(w , RF1,label="original")
+ax3.plot(w , RF2,label="original")
+ax3.legend(loc="upper left")
+plt.savefig('AvellaAndres_TF_interpola.pdf')
+plt.close()
+
+
+#aca tengo que comentar que encuentro de difertente en las transformadas de fourier
+print("")
+print("como se ve al realizar los dos procesos de interpolacion cuadratica y cubica,se logro pasar al espacio de frecuencias por medio de la transformada de fourier, como se ve la transformada de fourier de las interpolaciones tiene unos picos de freucencia diferentes a la de la señal original, esto se debe al proceos de ajuste de los datos por medio de la interpolacion. Ya que este se encarga de rellenar los datos de la serie de datos incompletos por medio de un ajuste cuadratico y cubico, lo que permite hacer la trasnformada")
+print("")
+#proceso de filtrado con frecuencia 1000
+
+ft1=[]
+ft2=[]
+ft3=[]
+ft4=[]
+ft11=[]
+ft22=[]
+ft33=[]
+ft44=[]
+
+for i in range(512):
+    if(RF3[i]<1000):
+        ft1.append(RF3[i])
+    if(RF4[i]<1000):
+        ft2.append(RF4[i])
+    if(RF5[i]<1000):
+        ft3.append(RF5[i])
+    if(RF6[i]<1000):
+        ft4.append(RF6[i])
+
+
+#proceso de filtrado con frecuencia 500
+
+
+for i in range(512):
+    if(RF3[i]<500):
+        ft11.append(RF3[i])
+    if(RF4[i]<500):
+        ft22.append(RF4[i])
+    if(RF5[i]<500):
+        ft33.append(RF5[i])
+    if(RF6[i]<500):
+        ft44.append(RF6[i])
 
