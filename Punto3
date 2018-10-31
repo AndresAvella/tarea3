@@ -4,64 +4,68 @@ from skimage.color import rgb2gray
 from scipy import fftpack
 import numpy as np
 from scipy import ndimage
+from matplotlib.colors import LogNorm
 
-
-#cargo la imagen con el ruido , defino la transformada de fourier y la aplico a la imagen, creo la grafica de la trasnformada de fourier 
-im = plt.imread('Arboles.png').astype(float) 
-im_fft = fftpack.fft2(im)
-plt.plot(im_fft)
+#cargo la imagen con el ruido , defino la transformada de fourier y la aplico a la imagen, creo la grafica de la trasnformada de fourier
+im = plt.imread('Arboles.png').astype(float)
+fftim = fftpack.fft2(im)
+plt.plot(fftim)
 plt.title("transformada de fourier de la imagen")
 plt.xlabel(r"$x $")
 plt.ylabel(r"$frecuencia $")
 plt.savefig('AvellaAndres_FT2D.pdf')
-plt.show()
+plt.close()
 #imprimo los valores de la transforamda de fourier y sus dimenciones
 
 #una vez vistas las dimenciones aplico un rango con el fin de quitar las frecuencias altas
 for i in range(256):
     for j in range(256):
-        if(im_fft[i][j]>700):
-            im_fft[i][j]=0
-        if(im_fft[i][j]<-700):
-            im_fft[i][j]=0
-plt.plot(im_fft)
-plt.title("transformada de fourier de la imagen recortada")
+        if(fftim[i][j]>900):
+            fftim[i][j]=0
+        if(fftim[i][j]<-900):
+            fftim[i][j]=0
+plt.plot(fftim)
+plt.title("transformada de fourier de la imagen filtrada")
 plt.savefig('AvellaAndres_FT2D-recortada.pdf')
-plt.show()
+plt.close()
 
 
 
-def pe(im_fft):
+def pe(fftim):
     
     
     #creo la grafica que me piden lognormal
-    plt.imshow(np.abs(im_fft), norm=LogNorm(vmin=5))
+    plt.imshow(np.abs(fftim), norm=LogNorm(vmin=4))
     plt.colorbar()
 
 plt.figure()
-pe(im_fft)
+pe(fftim)
 plt.title('Transformada de Fourier')
 plt.savefig('AvellaAndres_FourierLognormal.pdf')
+plt.close()
 
 
-#procion que se quiere tener del espectro 
+#procion que se quiere tener del espectro
 recorte = 0.35
 
 #creo una copua de la imagen con el fin de modificarla y filtrarla
-im_fft2 = im_fft.copy()
-a, b = im_fft2.shape
+fft2im = fftim.copy()
+a, b = fft2im.shape
 
 # borro los espectro que no quiero y los hago cero como se ve en la sigueinte grafica para filas y columnas
-im_fft2[int(a*recorte):int(a*(1-recorte))] = 0
-im_fft2[:, int(b*recorte):int(b*(1-recorte))] = 0
+fft2im[int(a*recorte):int(a*(1-recorte))] = 0
+fft2im[:, int(b*recorte):int(b*(1-recorte))] = 0
 #muestro el resultado del filtro
 plt.figure()
-pe(im_fft2)
+pe(fft2im)
 plt.title('Espectro Filtrado')
-plt.savefig('AvellaAndres_Fourier-filtrado-Lognormal.pdf')
-#realizo la transformada inversa luego de filtrar y muestro la imagen sin 
-imn = fftpack.ifft2(im_fft2).real
+plt.savefig('AvellaAndres_Fourier_Filtrado_Lognormal.pdf')
+plt.close()
+#realizo la transformada inversa luego de filtrar y muestro la imagen
+imn = fftpack.ifft2(fft2im).real
 plt.figure()
 plt.imshow(imn, plt.cm.gray)
 plt.title('Imagen Reconstruida')
 plt.savefig('AvellaAndres_imagenreconstruida.pdf')
+plt.close()
+#este punto se realizo con ayuda de ideas que estaba en el github del curso , en la seccion de transforamda de fourier.
